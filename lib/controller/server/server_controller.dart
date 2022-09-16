@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:counter_iot/DB/db_helper.dart';
-import 'package:counter_iot/const_file.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -21,14 +20,14 @@ class ServerController with ChangeNotifier {
           const Duration(seconds: 1),
         );
         final message = String.fromCharCodes(data);
-        log("datatatatatatatatata $message");
+        log("checking $message");
         value.add(message);
         final val = message.split(',');
         SensorModel sm= SensorModel(sensorCode: val[0],sensorId: "1",sensorSlno: "1",sensorType: "L");
         await DatabaseHelper.instance.addValuesToAllFields(sm);
         final dbResponse = await DatabaseHelper.instance.readAllSensor();
         for (int i = 0; i<dbResponse.length;i++){
-          print(dbResponse[i].sensorCode);
+          log(dbResponse[i].sensorCode);
         }
         
 

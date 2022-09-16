@@ -18,7 +18,7 @@ class DatabaseController with ChangeNotifier {
    Future refreshSensor() async {
     isLoading = true;
     deviceModel = await DatabaseHelper.instance.readAllSensor();
-    print(deviceModel[10].sensorCode);
+    // print(deviceModel[10].sensorCode);
     isLoading = true;
     notifyListeners();
   }
@@ -50,7 +50,7 @@ class DatabaseController with ChangeNotifier {
     log("Inserted id:$insertedId");
   }
 
-  notifyListeners();
+  // notifyListeners();
 
   Future<void> getSensorData() async {
     final _value = await _db.rawQuery('SELECT * FROM SensorData');
