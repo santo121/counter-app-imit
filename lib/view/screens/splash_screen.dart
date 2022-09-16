@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // });
       // sensor controller
      final val = Provider.of<DatabaseController>(context, listen: false).refreshSensor();
-     print(val.then((value) => value[0]));
+    //  print(val.then((value) => value[0]));
     });
     Timer(
       const Duration(seconds: 8),

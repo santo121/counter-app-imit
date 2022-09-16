@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:counter_iot/DB/db_helper.dart';
 import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/model/db_model.dart';
-import 'package:counter_iot/view/Widgets/widgets_list.dart';
+import 'package:counter_iot/view/Widgets/buttons.dart';
 import 'package:counter_iot/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider<ServerController>(create: (_) => ServerController()),
           Provider<DatabaseController>(create: (_) => DatabaseController()),
-          Provider<WidgetList>(create: (_) => WidgetList())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -67,14 +66,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  WidgetList widgetButton = WidgetList();
+
   @override
   void dispose() {
     super.dispose();
     server.close();
   }
 
-  WidgetList wid = WidgetList();
 
   @override
   Widget build(BuildContext context) {
@@ -95,23 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            widgetButton.buttonSelect(
+            buttonSelect(
               context: context,
                 onTap: () {}, buttonType: ButtonType.acceptButton),
             space20,
-            widgetButton.buttonSelect(
+            buttonSelect(
               context: context,
                 onTap: () {}, buttonType: ButtonType.denyButton),
             space20,
-            widgetButton.buttonSelect(
+            buttonSelect(
               context: context,
                 onTap: () {}, buttonType: ButtonType.jnAddSensor),
             space20,
-            widgetButton.buttonSelect(
+            buttonSelect(
               context: context,
                 onTap: () {}, buttonType: ButtonType.lnAddSensor),
             space20,
-            widgetButton.buttonSelect(
+            buttonSelect(
               context: context,
                 onTap: () {}, buttonType: ButtonType.secondAddSensor),
           ],
