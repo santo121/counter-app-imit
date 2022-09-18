@@ -4,6 +4,10 @@ import 'package:counter_iot/DB/db_helper.dart';
 import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/model/db_model.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
+import 'package:counter_iot/view/Widgets/sensor_status_box.dart';
+import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_boc_controller.dart';
+import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
+import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_creating_controller.dart';
 import 'package:counter_iot/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,21 +46,29 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider<ServerController>(create: (_) => ServerController()),
           Provider<DatabaseController>(create: (_) => DatabaseController()),
+          ChangeNotifierProvider (create: (_) => SensorStatusBoxController()),
+          ChangeNotifierProvider (create: (_) => SensorCreatingController()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const SplashScreen(),
+          routes: {
+            '/':((context) => MyHomePage( title: 'title',)),
+            '/splash':((context) =>const SplashScreen()),
+            '/create_sensor':((context) =>const SensorCreationPage()),
+          },
+          initialRoute: '/create_sensor',
+          
         ));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title, required this.value})
+  MyHomePage({Key? key, required this.title,})
       : super(key: key);
-  late ServerSocket value;
+ 
   final String title;
 
   @override
@@ -72,7 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
     server.close();
   }
-
+  // ! this is important
+  // * this is working properly
+  // ? this id done
+  // todo :  
 
   @override
   Widget build(BuildContext context) {
@@ -80,39 +95,43 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         elevation: 0,
-        backgroundColor: buttonC(buttonColor: sensorButtonColor.primary),
+        backgroundColor: colorsList(colorsList: ColorsLists.primaryAppBarColor),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            buttonSelect(
-              context: context,
-                onTap: () {}, buttonType: ButtonType.acceptButton),
-            space20,
-            buttonSelect(
-              context: context,
-                onTap: () {}, buttonType: ButtonType.denyButton),
-            space20,
-            buttonSelect(
-              context: context,
-                onTap: () {}, buttonType: ButtonType.jnAddSensor),
-            space20,
-            buttonSelect(
-              context: context,
-                onTap: () {}, buttonType: ButtonType.lnAddSensor),
-            space20,
-            buttonSelect(
-              context: context,
-                onTap: () {}, buttonType: ButtonType.secondAddSensor),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              buttonSelect(
+                context: context,
+                  onTap: () {}, buttonType: ButtonType.acceptButton),
+              space20,
+              buttonSelect(
+                context: context,
+                  onTap: () {}, buttonType: ButtonType.denyButton),
+              space20,
+              buttonSelect(
+                context: context,
+                  onTap: () {}, buttonType: ButtonType.jnAddSensor),
+              space20,
+              buttonSelect(
+                context: context,
+                  onTap: () {}, buttonType: ButtonType.lnAddSensor),
+              space20,
+              buttonSelect(
+                context: context,
+                  onTap: () {}, buttonType: ButtonType.secondAddSensor),
+                  space20,
+                  SensorBoxStatus()
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -122,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Provider.of<DatabaseController>(context, listen: false)
               .refreshSensor();
           // print(Provider.of<DatabaseController>(context,listen: false).deviceModel.length);
+          
           final data = Provider.of<DatabaseController>(context, listen: false)
               .deviceModel;
           for (var i = 0; i < data.length; i++) {
