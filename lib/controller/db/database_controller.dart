@@ -11,6 +11,12 @@ class DatabaseController with ChangeNotifier {
   
   bool isLoading = false;
 
+  void loading(){
+
+isLoading = true;
+    notifyListeners();
+  }
+
 
   
   

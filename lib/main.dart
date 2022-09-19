@@ -8,6 +8,7 @@ import 'package:counter_iot/view/Widgets/sensor_status_box.dart';
 import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_boc_controller.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_creating_controller.dart';
+import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_reading_signal.dart';
 import 'package:counter_iot/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,18 +56,19 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           routes: {
-            '/':((context) => MyHomePage( title: 'title',)),
+            '/':((context) =>const MyHomePage( title: 'title',)),
             '/splash':((context) =>const SplashScreen()),
             '/create_sensor':((context) =>const SensorCreationPage()),
+            '/sensor_reading':((context) =>const SensorReadingSignal()),
           },
-          initialRoute: '/create_sensor',
+          initialRoute: '/sensor_reading',
           
         ));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title,})
+  const MyHomePage({Key? key, required this.title,})
       : super(key: key);
  
   final String title;
@@ -129,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context: context,
                   onTap: () {}, buttonType: ButtonType.secondAddSensor),
                   space20,
-                  SensorBoxStatus()
+                  SensorBoxStatus(),
             ],
           ),
         ),

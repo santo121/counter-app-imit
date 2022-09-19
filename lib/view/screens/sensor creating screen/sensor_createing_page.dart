@@ -21,19 +21,23 @@ class SensorCreationPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-            Text("You don’t generated any sensors yet", style: textStyle(true)),
+            SizedBox(child: Text("You don’t generated any sensors yet", style: textStyle(true))),
             space30,
-            Text("Please add lane sensors by pressing the button \ngiven bellow",
-                style: textStyle(false)),
+            SizedBox(
+              child: Text("Please add lane sensors by pressing the button given bellow",
+                  style: textStyle(false)),
+            ),
                 space10,
             buttonSelect(
                 context: context,
                 onTap: () {},
                 buttonType: ButtonType.lnAddSensor),
-                space10,
-            Text(
-                "Please add junction sensors by pressing the button \ngiven bellow",
-                style: textStyle(false)),
+                space20,
+            SizedBox(
+              child: Text(
+                  "Please add junction sensors by pressing the button given bellow",
+                  style: textStyle(false)),
+            ),
                 space10,
             buttonSelect(
                 context: context,
