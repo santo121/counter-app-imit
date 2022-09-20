@@ -21,12 +21,12 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
           SingleChildScrollView(child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Column(
-              children: [
+              children: 
+                [
                 sensorReadingWidget(true),
                 sensorReadingWidget(true),
                 sensorReadingWidget(true),
                 sensorReadingWidget(true),
-                
                 ],
             ),
           )),
@@ -51,7 +51,13 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
             children: [
               Row(
                 children: [
-                  Container(),
+                  SizedBox(
+                    width: 10
+                    ,
+                    child: CircleAvatar(
+                      
+                    ),
+                  ),
                   flag?const Text("LN Sensor one"):const Text("JN Sensor one"),
                 ],
               ),
