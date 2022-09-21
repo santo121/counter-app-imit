@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color activeButtonColor = const Color(0xff0500FF);
-enum ColorsLists { gray, blue, lightBlue,black,white,primaryAppBarColor,backgroundColor}
+enum ColorsLists { gray, blue, lightBlue,black,white,primaryAppBarColor,backgroundColor,success,failure,textButtonColor}
 
 Color colorsList({required colorsList}) {
   switch (colorsList) {
@@ -34,6 +34,18 @@ Color colorsList({required colorsList}) {
     case ColorsLists.backgroundColor:
       {
         return const Color(0xffF2F2F2);
+      }
+    case ColorsLists.success:
+      {
+        return const Color(0xff80E400);
+      }
+    case ColorsLists.failure:
+      {
+        return const Color(0xffE30707);
+      }
+    case ColorsLists.textButtonColor:
+      {
+        return const Color(0xff0400DF);
       }
 
     default:

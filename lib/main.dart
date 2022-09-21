@@ -1,11 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:counter_iot/DB/db_helper.dart';
-import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/model/db_model.dart';
+import 'package:counter_iot/view/Widgets/app_bar.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
 import 'package:counter_iot/view/Widgets/sensor_status_box.dart';
 import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_boc_controller.dart';
+import 'package:counter_iot/view/screens/home/home_screen.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_creating_controller.dart';
 import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_reading_signal.dart';
@@ -21,6 +22,7 @@ import 'controller/server/server_controller.dart';
 void main() async {
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations;
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -47,8 +49,8 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider<ServerController>(create: (_) => ServerController()),
           Provider<DatabaseController>(create: (_) => DatabaseController()),
-          ChangeNotifierProvider (create: (_) => SensorStatusBoxController()),
-          ChangeNotifierProvider (create: (_) => SensorCreatingController()),
+          ChangeNotifierProvider(create: (_) => SensorStatusBoxController()),
+          ChangeNotifierProvider(create: (_) => SensorCreatingController()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -56,30 +58,41 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           routes: {
-            '/':((context) =>const MyHomePage( title: 'title',)),
-            '/splash':((context) =>const SplashScreen()),
-            '/create_sensor':((context) =>const SensorCreationPage()),
-            '/sensor_reading':((context) =>const SensorReadingSignal()),
+            '/': ((context) => const WidgetTest(
+                  title: 'title',
+                )),
+            '/splash': ((context) => const SplashScreen()),
+            '/home_screen': ((context) => const HomeScreen()),
+            '/create_sensor': ((context) => const SensorCreationPage()),
+            '/sensor_reading': ((context) => const SensorReadingSignal()),
           },
-          initialRoute: '/sensor_reading',
-          
+          initialRoute: '/home_screen',
         ));
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title,})
-      : super(key: key);
- 
+class WidgetTest extends StatefulWidget {
+  const WidgetTest({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<WidgetTest> createState() => _WidgetTestState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
+class _WidgetTestState extends State<WidgetTest> {
+  final int _counter = 0;
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+  ]);
+  }
 
   @override
   void dispose() {
@@ -89,16 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
   // ! this is important
   // * this is working properly
   // ? this id done
-  // todo :  
+  // todo :
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        elevation: 0,
-        backgroundColor: colorsList(colorsList: ColorsLists.primaryAppBarColor),
-      ),
+      appBar: customAppBar(actions: [], titles: ""),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -112,26 +121,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: Theme.of(context).textTheme.headline4,
               ),
               buttonSelect(
-                context: context,
-                  onTap: () {}, buttonType: ButtonType.acceptButton),
+                  context: context,
+                  onTap: () {},
+                  buttonType: ButtonType.acceptButton),
               space20,
               buttonSelect(
-                context: context,
-                  onTap: () {}, buttonType: ButtonType.denyButton),
+                  context: context,
+                  onTap: () {},
+                  buttonType: ButtonType.denyButton),
               space20,
               buttonSelect(
-                context: context,
-                  onTap: () {}, buttonType: ButtonType.jnAddSensor),
+                  context: context,
+                  onTap: () {},
+                  buttonType: ButtonType.jnAddSensor),
               space20,
               buttonSelect(
-                context: context,
-                  onTap: () {}, buttonType: ButtonType.lnAddSensor),
+                  context: context,
+                  onTap: () {},
+                  buttonType: ButtonType.lnAddSensor),
               space20,
               buttonSelect(
-                context: context,
-                  onTap: () {}, buttonType: ButtonType.secondAddSensor),
-                  space20,
-                  SensorBoxStatus(),
+                  context: context,
+                  onTap: () {},
+                  buttonType: ButtonType.secondAddSensor),
+              space20,
+              SensorBoxStatus(),
             ],
           ),
         ),
@@ -143,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Provider.of<DatabaseController>(context, listen: false)
               .refreshSensor();
           // print(Provider.of<DatabaseController>(context,listen: false).deviceModel.length);
-          
+
           final data = Provider.of<DatabaseController>(context, listen: false)
               .deviceModel;
           for (var i = 0; i < data.length; i++) {

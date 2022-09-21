@@ -49,11 +49,5 @@ class SensorCreationPage extends StatelessWidget {
     );
   }
 
-  TextStyle textStyle(bool head) {
-    return GoogleFonts.poppins(
-        fontSize: head ? 16 : 14,
-        fontStyle: FontStyle.normal,
-        fontWeight: head ? FontWeight.w600 : FontWeight.w300,
-        color: colorsList(colorsList: ColorsLists.black));
-  }
+  
 }

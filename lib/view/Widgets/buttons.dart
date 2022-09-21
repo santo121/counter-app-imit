@@ -6,7 +6,8 @@ enum ButtonType {
   jnAddSensor,
   secondAddSensor,
   acceptButton,
-  denyButton
+  denyButton,
+  redirectionButton
 }
 
   Widget sensorAddButton(
@@ -102,8 +103,19 @@ enum ButtonType {
             context: context,
             buttonColor: ColorsLists.gray,
             buttonText: "Add sensor",
-            sensorAddIcon: true,
+            sensorAddIcon: false,
             textColor: ColorsLists.black,
+            onTap: onTap,
+          );
+        }
+      case ButtonType.redirectionButton:
+        {
+          return sensorAddButton(
+            context: context,
+            buttonColor: ColorsLists.blue,
+            buttonText: "sensor console",
+            sensorAddIcon: false,
+            textColor: ColorsLists.white,
             onTap: onTap,
           );
         }
