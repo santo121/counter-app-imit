@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
 class SensorStatusBoxController with ChangeNotifier {
-  bool _flag = true;
-  bool switchFlag = false;
+  bool flag;
+  bool switchFlag;
 
-  bool get flag => _flag;
+  // bool getflag => _flag;
+  // bool get switchFlag => _switchFlag;
+
+  SensorStatusBoxController({required this.flag,required this.switchFlag,});
+
+ 
 
   void changeFlag(flag) {
-    _flag = flag;
+    flag = flag;
+    notifyListeners();
+  }
+  void changeSwitchFlag(flag){
+    switchFlag = flag;
     notifyListeners();
   }
 }
+ 

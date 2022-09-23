@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider<ServerController>(create: (_) => ServerController()),
           Provider<DatabaseController>(create: (_) => DatabaseController()),
-          ChangeNotifierProvider(create: (_) => SensorStatusBoxController()),
+          ChangeNotifierProvider(create: (_) => SensorStatusBoxController(flag: true,switchFlag: false)),
           ChangeNotifierProvider(create: (_) => SensorCreatingController()),
         ],
         child: MaterialApp(
@@ -145,7 +145,7 @@ class _WidgetTestState extends State<WidgetTest> {
                   onTap: () {},
                   buttonType: ButtonType.secondAddSensor),
               space20,
-              SensorBoxStatus(lnFlag: true),
+              // SensorBoxStatus(lnFlag: true),
             ],
           ),
         ),
