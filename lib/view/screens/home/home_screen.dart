@@ -1,4 +1,5 @@
-import 'package:counter_iot/view/Widgets/sensor_status_box.dart';
+import 'package:counter_iot/const_file.dart';
+import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    space20;
+    sensorSwitching(true );
     super.dispose();
   }
 
@@ -35,21 +38,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            sensorSwitching(true),
-            lnSensorList([
-              SensorBoxStatus(),
-              SensorBoxStatus(),
-              SensorBoxStatus(),
-              SensorBoxStatus(),
-            ]),
-            lnSensorList([
-              SensorBoxStatus(),
-              SensorBoxStatus(),
-              SensorBoxStatus(),
-            ]),
-          ],
+        child: Container(
+          padding:const EdgeInsets.only(left: 20,right: 20),
+          width: MediaQuery.of(context).size.width,
+          
+          child: Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.stretch,
+                     children: [
+              sensorSwitching(true),
+              lnSensorList([
+                SensorBoxStatus(lnFlag: true),
+                SensorBoxStatus(lnFlag: true),
+                SensorBoxStatus(lnFlag: true),
+                SensorBoxStatus(lnFlag: true),
+              ]),
+              space20,
+              lnSensorList([
+                SensorBoxStatus(lnFlag: false),
+                SensorBoxStatus(lnFlag: false),
+                SensorBoxStatus(lnFlag: false),
+              ]),
+            ],
+          ),
         ),
       )),
     );
@@ -75,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget lnSensorList(List<SensorBoxStatus> lnSensor) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: lnSensor,
     );
   }

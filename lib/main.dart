@@ -4,8 +4,8 @@ import 'package:counter_iot/DB/db_helper.dart';
 import 'package:counter_iot/model/db_model.dart';
 import 'package:counter_iot/view/Widgets/app_bar.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
-import 'package:counter_iot/view/Widgets/sensor_status_box.dart';
-import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_boc_controller.dart';
+import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_box.dart';
+import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_box_controller.dart';
 import 'package:counter_iot/view/screens/home/home_screen.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_creating_controller.dart';
@@ -145,7 +145,7 @@ class _WidgetTestState extends State<WidgetTest> {
                   onTap: () {},
                   buttonType: ButtonType.secondAddSensor),
               space20,
-              SensorBoxStatus(),
+              SensorBoxStatus(lnFlag: true),
             ],
           ),
         ),

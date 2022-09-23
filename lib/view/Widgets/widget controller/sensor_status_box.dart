@@ -1,32 +1,39 @@
 import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/const_file.dart';
 import 'package:counter_iot/const_string.dart';
-import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_boc_controller.dart';
+import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_box_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SensorBoxStatus extends StatelessWidget {
-  SensorBoxStatus({
-    Key? key,
-  }) : super(key: key);
-
+  SensorBoxStatus({Key? key, required this.lnFlag, }) : super(key: key);
+  final bool lnFlag;
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       width: 190,
       decoration: decoration,
       child: Center(
         child: Column(children: [
           heading("first line"),
           Container(
-            padding:const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: Column(children: [
-            vehicleNumberController(context),
-          sensorSwitchSection(),
-          dropCount()
-          ]),)
-          
+              lnFlag ? vehicleNumberController(context) : const SizedBox(),
+              lnFlag
+                  ? Consumer<SensorStatusBoxController>(
+                      builder: (context, myModel, child) {
+                      return sensorSwitchSection(
+                          onChange: (val) {
+                            myModel.switchFlag = val;
+                          },
+                          val: myModel.switchFlag);
+                    })
+                  : const SizedBox(),
+              dropCount()
+            ]),
+          )
         ]),
       ),
     );
@@ -77,13 +84,13 @@ class SensorBoxStatus extends StatelessWidget {
 // ! vehicle number end
 
 // todo: sensor switch section start
-  Widget sensorSwitchSection() {
+  Widget sensorSwitchSection({required onChange, required val}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Text(counterName),
-        Switch(value: true, onChanged: (val) {})
+        Switch(value: val, onChanged: onChange)
       ],
     );
   }
