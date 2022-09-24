@@ -26,7 +26,7 @@ class SensorBoxStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(sensorStatus.toString());
+    // log(sensorStatus.toString());
     return Container(
       width: 190,
       decoration: decoration,

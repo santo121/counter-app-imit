@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   @override
   void initState() {
     super.initState();
@@ -44,67 +45,66 @@ List<SensorStatusBoxController> data=[
 ];
   @override
   Widget build(BuildContext context) {
+    log("from build");
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              sensorSwitching(true),
+          child: Container(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              
+              children: [
+                sensorSwitching(true),
 
-              SizedBox(
-                width: 400,
-                height: 400,
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                        // return Text(data[index].flag.toString());
+                Expanded(
+                  
+                  child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                          // return Text(data[index].flag.toString());
 
-                      return Consumer<SensorStatusBoxController>(
-                          builder: (context, myModel, child) {
-                        return lnSensorList([
-                          SensorBoxStatus(
-                            lnFlag: data[index].flag,
-                            counterReadingSwitch: (val) {
-                              log(val.toString());
-                              myModel.changeSwitchFlag(val);
-                              data[index].switchFlag=val;
-                            },
-                            sensorStatus: data[index].switchFlag,
-                            editVehicleNum: () {},
-                            vehicleNumber: "",
-                          )
-                        ]);
-                      });
-                    }
-                    ),
-              ),
+                        return Consumer<SensorStatusBoxController>(
+                            builder: (context, myModel, child) {
+                              log("from consumer");
 
-              // SensorBoxStatus(lnFlag: true),
-              // SensorBoxStatus(lnFlag: true),
-              // SensorBoxStatus(lnFlag: true),
-              // todo: Add vehicle number or fetch from database
-              // todo: switch control to start or end the process of counting
-              // todo: need get the count of the reading form the client side
-              // todo: need to get the last pick time and date from data base or form API ()
-              // todo: vehicle number adding is by the help of dialog
-              space20,
-              lnSensorList([
-                // SensorBoxStatus(lnFlag: false),
-                // SensorBoxStatus(lnFlag: false),
-                // SensorBoxStatus(lnFlag: false),
-              ]),
-            ],
-          ),
-        ),
-      )),
+                          return lnSensorList([
+                            SensorBoxStatus(
+                              lnFlag: data[index].flag,
+                              counterReadingSwitch: (val) {
+
+                                // log(val.toString());
+                                myModel.changeSwitchFlag(val);
+                                data[index].switchFlag=val;
+                              },
+                              sensorStatus: data[index].switchFlag,
+                              editVehicleNum: () {},
+                              vehicleNumber: "",
+                            )
+                          ]);
+                        });
+                      }
+                      ),
+                ),
+
+                // SensorBoxStatus(lnFlag: true),
+                // SensorBoxStatus(lnFlag: true),
+                // SensorBoxStatus(lnFlag: true),
+                // todo: Add vehicle number or fetch from database
+                // todo: switch control to start or end the process of counting
+                // todo: need get the count of the reading form the client side
+                // todo: need to get the last pick time and date from data base or form API ()
+                // todo: vehicle number adding is by the help of dialog
+                space20,
+                lnSensorList([
+                  
+                ]),
+              ],
+            ),
+          )),
     );
   }
 
