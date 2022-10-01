@@ -1,6 +1,7 @@
 import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/const_file.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
+import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_reading_signal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,38 +17,45 @@ class SensorCreationPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-            SizedBox(child: Text("You don’t generated any sensors yet", style: textStyle(true))),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                child: Text("You don’t generated any sensors yet",
+                    style: textStyle(true))),
             space30,
             SizedBox(
-              child: Text("Please add lane sensors by pressing the button given bellow",
+              child: Text(
+                  "Please add lane sensors by pressing the button given bellow",
                   style: textStyle(false)),
             ),
-                space10,
+            space10,
             buttonSelect(
                 context: context,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SensorReadingSignal()),
+                  );
+                },
                 buttonType: ButtonType.lnAddSensor),
-                space20,
+            space20,
             SizedBox(
               child: Text(
                   "Please add junction sensors by pressing the button given bellow",
                   style: textStyle(false)),
             ),
-                space10,
+            space10,
             buttonSelect(
                 context: context,
                 onTap: () {},
                 buttonType: ButtonType.jnAddSensor),
-        ],
-      ),
-          )),
+          ],
+        ),
+      )),
     );
   }
-
-  
 }

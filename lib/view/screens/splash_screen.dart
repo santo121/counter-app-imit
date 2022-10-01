@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:counter_iot/DB/db_helper.dart';
-import 'package:counter_iot/const_file.dart';
-import 'package:counter_iot/controller/db/database_controller.dart';
-import 'package:counter_iot/main.dart';
+import 'package:counter_iot/view/Widgets/common_widget.dart';
+import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../controller/server/server_controller.dart';
+import 'package:flutter/services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,6 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp]);
     Future.delayed(const Duration(seconds: 2)).then((value) async {
       // open server
       // server = await ServerSocket.bind(internetAddress, portNumber);
@@ -28,41 +26,37 @@ class _SplashScreenState extends State<SplashScreen> {
       //       .handleConnection(client);
       // });
       // sensor controller
-     final val = Provider.of<DatabaseController>(context, listen: false).refreshSensor();
-    //  print(val.then((value) => value[0]));
+      // todo:  final val = Provider.of<DatabaseController>(context, listen: false).refreshSensor();
+      //  print(val.then((value) => value[0]));
     });
     Timer(
       const Duration(seconds: 8),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => WidgetTest(title: 'it is testing now'),
+          builder: (context) =>const SensorCreationPage(),
         ),
       ),
     );
   }
 
- 
-@override
+  @override
   void dispose() {
     // DatabaseHelper.instance.close();
 
     super.dispose();
   }
-  @override  
-  Widget build(BuildContext context) {
-                                                 
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      child: Center(
-          child: ElevatedButton(
-        child: const Text("data"),
-        onPressed: () {
-          // Provider.of<DatabaseController>(context, listen: false)
-          //     .addSensorData();
-        },
-      )),
-    ));
+        body: Center(
+            child: ElevatedButton(
+          child: const Text("data"),
+          onPressed: () {
+            // Provider.of<DatabaseController>(context, listen: false)
+            //     .addSensorData();
+          },
+        )));
   }
 }

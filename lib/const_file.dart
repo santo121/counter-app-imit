@@ -29,3 +29,6 @@ TextStyle textStyle(bool head,{ bool para = true}) {
         fontWeight: head ? FontWeight.w600 : FontWeight.w300,
         color: colorsList(colorsList: ColorsLists.black));
   }
+
+  double screenWidth(context) => MediaQuery.of(context).size.width;
+  double screenHeight(context) => MediaQuery.of(context).size.height;

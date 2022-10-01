@@ -4,13 +4,14 @@ import 'package:counter_iot/const_file.dart';
 import 'package:counter_iot/const_string.dart';
 import 'package:counter_iot/view/Widgets/widget%20controller/sensor_status_box_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 
 class SensorBoxStatus extends StatelessWidget {
   SensorBoxStatus({
     Key? key,
-    this.vehicleNumber,
+    required this.vehicleNumber,
     required this.lnFlag,
     required this.editVehicleNum,
     required this.counterReadingSwitch,
@@ -26,10 +27,10 @@ class SensorBoxStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // log(sensorStatus.toString());
     return Container(
+    
       width: 190,
-      
+    
       decoration: decoration,
       child: Center(
         child: Column(children: [
@@ -37,7 +38,7 @@ class SensorBoxStatus extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: Column(children: [
-              lnFlag ? vehicleNumberController(context,"Add vehicle") : const SizedBox(),
+              lnFlag ? vehicleNumberController(context,vehicleNumber) : const SizedBox(),
               lnFlag
                   ? sensorSwitchSection(onChange: counterReadingSwitch, val: sensorStatus)
                   : const SizedBox(),
@@ -96,7 +97,8 @@ class SensorBoxStatus extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Text(counterName),
-        Switch(value: val, onChanged:onChange)
+        CupertinoSwitch(value: val, onChanged: onChange)
+        // Switch(value: val, onChanged:onChange)
       ],
     );
   }
@@ -104,13 +106,16 @@ class SensorBoxStatus extends StatelessWidget {
 
 // todo: Drop count section start
   Widget dropCount() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Text(totalDrops),
-        const Text("data"),
-      ],
+    return Container(
+      margin:const EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(totalDrops),
+          const Text("data"),
+        ],
+      ),
     );
   }
 // ! Drop count section end

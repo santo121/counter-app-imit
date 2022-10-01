@@ -29,7 +29,7 @@ class ServerController with ChangeNotifier {
         for (int i = 0; i<dbResponse.length;i++){
           log(dbResponse[i].sensorCode);
         }
-        
+        // ! pass the sensor value to the received index of list
 
         // if (message == 'Knock, knock.') {
         //   client.write('Who is there?');
