@@ -47,12 +47,12 @@ class MyApp extends StatelessWidget {
       ]);
     return MultiProvider(
         providers: [
-          Provider<ServerController>(create: (_) => ServerController()),
-          Provider<DatabaseController>(create: (_) => DatabaseController()),
+          ChangeNotifierProvider(create: (_) => ServerController()),
+          ChangeNotifierProvider(create: (_) => DatabaseController()),
           ChangeNotifierProvider(create: (_) => SensorStatusBoxController()),
           ChangeNotifierProvider(create: (_) => SensorCreatingController()),
           ChangeNotifierProvider(create: (_) => HomeScreenController()),
-          ChangeNotifierProvider(create: (_) => SensorReadingController()),
+          // ChangeNotifierProvider(create: (_) => SensorReadingController()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

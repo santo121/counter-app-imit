@@ -29,25 +29,27 @@ final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final boolType = 'BOOLEAN NOT NULL';
     final integerType = 'INTEGER NOT NULL';
 
+    final sensorData = 'SensorData';
 
-  Future<void> _createDb(Database val, int id) async {
+
+  Future<void> _createDb(Database db, int id) async {
     // Table for sensors
-    await val.execute(
-        'CREATE TABLE SensorData(id INTEGER PRIMARY KEY,sensorId TEXT,sensorType TEXT,sensorSlno TEXT,sensorCode  TEXT)');
+    await db.execute(
+        'CREATE TABLE $sensorData(id $idType,sensorId TEXT,sensorType TEXT,sensorSlno TEXT,sensorCode  TEXT)');
 
     //Table for lane occupancy
-    await val.execute(
-        'CREATE TABLE LaneOccupancy(occuId INTEGER PRIMARY KEY,occuVehicle TEXT,occuLaneSlno TEXT,occuWorkMode TEXT,occuEndDt  TEXT)');
+    await db.execute(
+        'CREATE TABLE LaneOccupancy(id $idType,occuVehicle TEXT,occuLaneSlno TEXT,occuWorkMode TEXT,occuEndDt  TEXT)');
 
     //Table for RF tags
 
-    await val.execute(
-        'CREATE TABLE RfTags(tagId INTEGER PRIMARY KEY,tagCode TEXT,tagName TEXT,tagStatus TEXT)');
+    await db.execute(
+        'CREATE TABLE RfTags(id $idType,tagCode TEXT,tagName TEXT,tagStatus TEXT)');
 
     //Table for readings
 
-    await val.execute(
-        'CREATE TABLE Readings(readId INTEGER PRIMARY KEY,readOccu TEXT,readWMode TEXT,occuWorkMode TEXT,occuEndDt  TEXT)');
+    await db.execute(
+        'CREATE TABLE Readings(id $idType,readOccu TEXT,readWMode TEXT,occuWorkMode TEXT,occuEndDt  TEXT)');
   }
 
   Future<void> addValuesToAllFields(SensorModel model) async {
@@ -92,4 +94,17 @@ final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
 
     return toList;
   }
+  // Future<List<SensorModel>> getIntNum() async {
+  //   final db = await instance.database;
+  //   final result = await db!.rawQuery("SELECT id, name FORM $sensorData");
+  //   final toList = result.map((json) => SensorModel.fromJson(json)).toList();
+  //   for (var i = 0; i < toList.length; i++) {
+  //     log("data data data ${toList[i].sensorId}");
+  //   }
+
+  //   return toList;
+  // }
+
+
+
 }

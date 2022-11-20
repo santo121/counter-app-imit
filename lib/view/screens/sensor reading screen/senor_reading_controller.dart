@@ -1,49 +1,46 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 
-enum SensorType { lnSensor, jnSensor }
+// // enum SensorType { lnSensor, jnSensor }
 
-class SensorReadingController with ChangeNotifier {
-// // ! ln sensor list
-//  final List<SensorReadingController> lnSensorList = [
-//     SensorReadingController.sn(
-//         sensorType: SensorType.lnSensor, verified: false),
-//     SensorReadingController.sn(
-//         sensorType: SensorType.lnSensor, verified: false),
-//     SensorReadingController.sn(
-//         sensorType: SensorType.lnSensor, verified: false),
-//   ];
-// // ! jn sensor list
-
-//   final List<SensorReadingController> jnSensorList = [
-//     SensorReadingController.sn(
-//         sensorType: SensorType.jnSensor, verified: false),
-//     SensorReadingController.sn(
-//         sensorType: SensorType.jnSensor, verified: false),
-//     SensorReadingController.sn(
-//         sensorType: SensorType.jnSensor, verified: false),
-//   ];
+// class SensorReadingController with ChangeNotifier {
 
 
-  SensorType sensorType = SensorType.jnSensor;
-  bool verified = false;
-  int tabCount = 0;
-  SensorReadingController.sn(
-      {required this.sensorType, required this.verified});
+//   String existingVal="";
+//   SensorType? sensorType;
+//   bool verified = false;
+//  String? sensorId='';
+//  int ?sensorCount;
+//   // ! TAB count is used for get the count of the selected tab from sensor reading screen
+//   int tabCount = 0;
+//   SensorReadingController.sn(
+//       {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount});
 
-  void changeSensorType({required SensorType sensorType}) {
-    this.sensorType = sensorType;
-    notifyListeners();
-  }
+//   void changeSensorType({required SensorType sensorType}) {
+//     this.sensorType = sensorType;
+//     notifyListeners();
+//   }
+//   void changeExistingVal(val){
+//     existingVal = val;
+//     notifyListeners();
+//   }
+//  void changeSensorId ({required val}){
+//   sensorId = val;
+//   notifyListeners();
+//  }
 
-  void changeVerification({required bool verified}) {
-    this.verified = verified;
-    notifyListeners();
-  }
+//   void changeVerification({required bool verified}) {
+//     this.verified = verified;
+//     notifyListeners();
+//   }
 
-  void changedTabCount(val) {
-    tabCount = val;
-    notifyListeners();
-  }
+//   void changedTabCount(val) {
+//     tabCount = val;
+//     notifyListeners();
+//   }
 
-  SensorReadingController();
-}
+//   SensorReadingController();
+
+
+
+  
+// }

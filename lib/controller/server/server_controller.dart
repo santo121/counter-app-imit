@@ -7,28 +7,40 @@ import 'dart:io';
 
 import '../../model/db_model.dart';
 
-class ServerController with ChangeNotifier {
-  List<String> value = [];
+enum SensorType { lnSensor, jnSensor }
+ValueNotifier <String> listNot = ValueNotifier(""); 
+
+class ServerController extends ChangeNotifier {
+
+ String sensorIdList='';
 
   
-
-  void handleConnection(Socket client) {
+// void changeSensorList(val){
+// sensorIdList.add(val);
+// notifyListeners();
+// }
+  void handleConnection(Socket client){
     log('connect from : ${client.remoteAddress.address}: ${client.remoteAddress}');
-    client.listen(
+    final val = client.listen(
       (Uint8List data) async {
         await Future.delayed(
           const Duration(seconds: 1),
         );
         final message = String.fromCharCodes(data);
+        listNot.value=message;
+        //  changeSensorList(message);
+        sensorIdList=message;
+        notifyListeners();
+
         log("checking $message");
-        value.add(message);
         final val = message.split(',');
         SensorModel sm= SensorModel(sensorCode: val[0],sensorId: "1",sensorSlno: "1",sensorType: "L");
-        await DatabaseHelper.instance.addValuesToAllFields(sm);
-        final dbResponse = await DatabaseHelper.instance.readAllSensor();
-        for (int i = 0; i<dbResponse.length;i++){
-          log(dbResponse[i].sensorCode);
-        }
+        // await DatabaseHelper.instance.addValuesToAllFields(sm);
+        // final dbResponse = await DatabaseHelper.instance.readAllSensor();
+
+        // for (int i = 0; i<dbResponse.length;i++){
+        //   log(dbResponse[i].sensorCode);
+        // }
         // ! pass the sensor value to the received index of list
 
         // if (message == 'Knock, knock.') {
@@ -40,8 +52,14 @@ class ServerController with ChangeNotifier {
 
         //   client.close();
         // }
-        notifyListeners();
+          // log(sensorIdList.toString());
+
+        // sensorIdList.add(message);
+          // log(sensorIdList.toString());
+
       },
+
+      
       onError: (error) {
         log(error);
         client.close();
@@ -51,5 +69,59 @@ class ServerController with ChangeNotifier {
         client.close();
       },
     );
+  
+
   }
+
+
+//! sensor controller
+
+
+  List<String> existingValJn=[];
+  List<String> existingValLn=[];
+  SensorType? sensorType;
+  bool verified = false;
+ String? sensorId='';
+ int ?sensorCount;
+  // ! TAB count is used for get the count of the selected tab from sensor reading screen
+  int tabCount = 0;
+ ServerController.sn(
+      {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount});
+
+  void changeSensorType({required SensorType sensorType}) {
+    this.sensorType = sensorType;
+    notifyListeners();
+  }
+  void changeExistingValJn(index,val){
+    log('log for sensor index $index');
+    existingValJn.insert(index,val);
+    notifyListeners();
+  }
+  void changeExistingValLn(index,val,){
+    log('log for sensor index $index');
+
+    existingValLn.insert(index, val);
+    notifyListeners();
+  }
+ void changeSensorId ({required val}){
+  sensorId = val;
+  notifyListeners();
+ }
+
+  void changeVerification({required bool verified}) {
+    this.verified = verified;
+    notifyListeners();
+  }
+
+  void changedTabCount(val) {
+    tabCount = val;
+    notifyListeners();
+  }
+
+ServerController();
+
+
+
+
+
 }

@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     DeviceOrientation.portraitDown,
   ]);
     space20;
-    sensorSwitching(true);
+    sensorSwitching(true,onPress: (){});
     super.dispose();
   }
 
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //todo: sensor switching area
-              sensorSwitching(true),
+              sensorSwitching(true, onPress: (){}),
               //todo: ln section
               lnSection(),
               space10,
@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
 
-  Widget sensorSwitching(bool flag) {
+  Widget sensorSwitching(bool flag,{required onPress}) {
     return SizedBox(
       width: screenWidth(context),
       child: Row(
@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text("Unloading"),
             ],
           ),
-          TextButton(onPressed: () {}, child: const Text("Switch to loading"))
+          TextButton(onPressed: onPress, child: const Text("Switch to loading"))
         ],
       ),
     );
