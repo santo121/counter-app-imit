@@ -5,7 +5,7 @@ import 'package:counter_iot/view/screens/home/home_screen.dart';
 import 'package:counter_iot/view/screens/home/home_screen_controller.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_createing_page.dart';
 import 'package:counter_iot/view/screens/sensor%20creating%20screen/sensor_creating_controller.dart';
-import 'package:counter_iot/view/screens/sensor%20reading%20screen/senor_reading_controller.dart';
+import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_readed_result_controller.dart';
 import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_reading_signal.dart';
 import 'package:counter_iot/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SensorStatusBoxController()),
           ChangeNotifierProvider(create: (_) => SensorCreatingController()),
           ChangeNotifierProvider(create: (_) => HomeScreenController()),
+          ChangeNotifierProvider(create: (_) => SensorReadResultController()),
           // ChangeNotifierProvider(create: (_) => SensorReadingController()),
         ],
         child: MaterialApp(

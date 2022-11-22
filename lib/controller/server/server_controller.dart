@@ -12,8 +12,9 @@ ValueNotifier <String> listNot = ValueNotifier("");
 
 class ServerController extends ChangeNotifier {
 
- String sensorIdList='';
-
+ServerController.sn(
+      {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount});
+String sensorIdList='';
   
 // void changeSensorList(val){
 // sensorIdList.add(val);
@@ -85,8 +86,7 @@ class ServerController extends ChangeNotifier {
  int ?sensorCount;
   // ! TAB count is used for get the count of the selected tab from sensor reading screen
   int tabCount = 0;
- ServerController.sn(
-      {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount});
+ 
 
   void changeSensorType({required SensorType sensorType}) {
     this.sensorType = sensorType;

@@ -4,6 +4,7 @@ import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/const_file.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
 import 'package:counter_iot/view/screens/home/home_screen.dart';
+import 'package:counter_iot/view/screens/sensor%20reading%20screen/sensor_readed_result_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,9 +20,7 @@ class SensorReadingSignal extends StatefulWidget {
 }
 
 class _SensorReadingSignalState extends State<SensorReadingSignal> {
-  final List<ServerController> lnSensorList = [];
-  final List<ServerController> jnSensorList = [];
-  bool addButtonFlag = true;
+ 
   @override
   void initState() {
     super.initState();
@@ -43,41 +42,6 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
             color: colorsList(
                 colorsList: ColorsLists.black), //change your color here
           ),
-          // actions: [
-          //   //! Add sensor - button
-          //   Consumer<SensorReadingController>(
-          //       builder: (context, myModel, child) {
-          //     return TextButton(
-          //         onPressed: () {
-          //           log(myModel.tabCount.toString());
-          //           if (myModel.tabCount == 0) {
-          //             // todo: Specifying the sensor type by adding values to the controller
-          //             myModel.changeSensorType(sensorType: SensorType.lnSensor);
-          //             myModel.changeVerification(verified: false);
-          //             // todo: adding the value to sensor list
-          //             lnSensorList.add(SensorReadingController.sn(
-          //                 sensorCount: 0,
-          //                 sensorType: myModel.sensorType,
-          //                 verified: myModel.verified));
-          //           } else {
-          //             // todo: Specifying the sensor type by adding values to the controller
-          //             myModel.changeSensorType(sensorType: SensorType.jnSensor);
-          //             myModel.changeVerification(verified: false);
-          //             // todo: adding the value to sensor list
-          //             jnSensorList.add(SensorReadingController.sn(
-          //                 sensorCount: 0,
-          //                 sensorType: myModel.sensorType,
-          //                 verified: myModel.verified));
-          //           }
-          //         },
-          //         child: Text(
-          //           "ADD SENSOR",
-          //           style: TextStyle(
-          //               color: colorsList(
-          //                   colorsList: ColorsLists.textButtonColor)),
-          //         ));
-          //   })
-          // ],
           backgroundColor: colorsList(
             colorsList: ColorsLists.primaryAppBarColor,
           ),
@@ -105,6 +69,8 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
         body: TabBarView(
           children: [
             // ! LN sensor section
+            // todo : <<<<<<<<<<<<<<<<<<<<<<<<  LN sensor section section >>>>>>>>>>>>>>>>>>>>>>>>
+
             Stack(
               children: [
                 SingleChildScrollView(
@@ -112,73 +78,87 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
-                    child: Consumer<ServerController>(
-                        builder: (context, myModel, child) {
+                    child: Consumer2<ServerController,SensorReadResultController>(
+                        builder: (context, myModelServer,myModelStore, child) {
                       return ValueListenableBuilder(
                           valueListenable: listNot,
                           builder: (context, String model, child) {
                             return ListView.builder(
-                                itemCount: lnSensorList.length + 1,
+                                itemCount: myModelStore.lnSensorList.length + 1,
                                 itemBuilder: (cont, index) {
-                                  log('data  ${lnSensorList.length.toString()}');
-                                  log('data index ${index.toString()}');
+                                  log(index.toString()+"index number from lane sensor builder");
 
-                                  if (index != lnSensorList.length) {
-                                    log(lnSensorList.length.toString());
+                                  if (index != myModelStore.lnSensorList.length) {
                                     return sensorReadingWidget(
-                                        lnSensorList[index].sensorType ==
+                                        myModelStore.lnSensorList[index].sensorType ==
                                                 SensorType.lnSensor
                                             ? true
                                             : false,
-                                        lnSensorList[index].verified,
+                                        myModelStore.lnSensorList[index].verified,
                                         index, deleteFunc: () {
                                       deleteButtonConfirmationButton(context,
                                           acceptOnPressed: () {
-                                        setState(() {
-                                          lnSensorList.removeAt(index);
-
-                                          addButtonFlag = true;
-                                        });
+                                      
+                                        //todo: change the name to removeFromLnSensorList
+                                        myModelStore.lnSensorList.removeAt(index);
+                                        myModelStore.changeAddButtonFlag(true);
                                         Navigator.pop(context);
                                       }, cancelOnPressed: () {
                                         Navigator.pop(context);
                                       });
 
                                       listNot.value = '';
-                                      myModel.existingValLn.removeAt(index);
+                                     myModelServer.existingValLn.removeAt(index);
                                     }, verifyButton: () {
-                                      setState(() {
+                                 
                                         verifyOverDialogLN(
                                           context,
                                           index,
                                         );
-                                      });
+                                     
                                     });
                                   }
-                                  return Consumer<ServerController>(
-                                      builder: (context, myModel, child) {
-                                    return addButtonFlag
+                                 
+                                    return myModelStore.addButtonFlag
+                                              //* this button will help to add lane sensor
                                         ? TextButton(
                                             onPressed: () {
-                                              log(myModel.tabCount.toString());
+                                             
+                                              //* here we just logged the tab count
+                                              log(myModelServer.tabCount.toString());
 
-                                              // todo: Specifying the sensor type by adding values to the controller
-                                              myModel.changeSensorType(
+                                              //* Specifying the sensor type by adding values to the controller
+                                             
+                                              myModelServer.changeSensorType(
                                                   sensorType:
                                                       SensorType.lnSensor);
-                                              myModel.changeVerification(
+                                                       log(index.toString()+"index number from lane sensor button");
+                                              log(myModelServer.sensorType.toString()+"index number from lane sensor button");
+                                              //*  <<<<<<< here we changing the verification status to false >>>>>>>
+                                              myModelServer.changeVerification(
                                                   verified: false);
-                                              // todo: adding the value to sensor list
-                                              lnSensorList.add(
-                                                  ServerController.sn(
+                                              //* <<<<<<<<<<<<<<< adding the value to sensor list >>>>>>>>>>>>>>>
+                                            //  lnSensorList.add(
+                                            //       ServerController.sn(
+                                            //           sensorCount: index,
+                                            //           sensorType:
+                                            //               myModelServer.sensorType,
+                                            //           verified:
+                                            //               myModelServer.verified));
+
+                                              //* <<<<<<<<<<<<<<< adding the value to the second controller >>>>>>>>>>>>>>>
+
+                                                          myModelStore.addToLnSensor(
+                                                            ServerController.sn(
                                                       sensorCount: index,
                                                       sensorType:
-                                                          myModel.sensorType,
+                                                          myModelServer.sensorType,
                                                       verified:
-                                                          myModel.verified));
-                                              setState(() {
-                                                addButtonFlag = false;
-                                              });
+                                                          myModelServer.verified)
+                                                          );
+
+                                          
+                                              myModelStore.changeAddButtonFlag(false);
                                             },
                                             child: Row(
                                               mainAxisAlignment:
@@ -203,7 +183,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                                               ],
                                             ))
                                         : const SizedBox();
-                                  });
+                                  
                                 });
                           });
                     }),
@@ -224,7 +204,11 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                         context: context))
               ],
             ),
-            // ! jn sensor section
+            //! end : <<<<<<<<<<<<<<<<<<<<<<<<  LN sensor section section >>>>>>>>>>>>>>>>>>>>>>>>
+            
+            
+            // todo : <<<<<<<<<<<<<<<<<<<<<<<<  Junction box sensor section >>>>>>>>>>>>>>>>>>>>>>>>
+
             Stack(
               children: [
                 SingleChildScrollView(
@@ -232,51 +216,52 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
-                    child: Consumer<ServerController>(
-                        builder: (context, myModel, child) {
+                    child: Consumer2<ServerController,SensorReadResultController>(
+                        builder: (context, myModel,sensorStorage, child) {
                       return ValueListenableBuilder(
                           valueListenable: listNot,
                           builder: (context, String model, child) {
                             // print(model);
                             return ListView.builder(
-                                itemCount: jnSensorList.length + 1,
+                                itemCount: sensorStorage.jnSensorList.length + 1,
                                 itemBuilder: (cont, index) {
-                                  if (index != jnSensorList.length) {
+                                  if (index != sensorStorage.jnSensorList.length) {
                                     return sensorReadingWidget(
-                                        jnSensorList[index].sensorType ==
+                                        sensorStorage.jnSensorList[index].sensorType ==
                                                 SensorType.lnSensor
                                             ? true
                                             : false,
-                                        jnSensorList[index].verified,
+                                        sensorStorage.jnSensorList[index].verified,
                                         index, deleteFunc: () {
-                                      setState(() {
-                                        jnSensorList.removeAt(index);
-                                        addButtonFlag = true;
+                                      deleteButtonConfirmationButton(context,
+                                          acceptOnPressed: () {
+                                       
+                                          sensorStorage.jnSensorList.removeAt(index);
+
+                                          sensorStorage.changeAddButtonFlag( true);
+                                        
+                                        Navigator.pop(context);
+                                      }, cancelOnPressed: () {
+                                        Navigator.pop(context);
                                       });
-                                      myModel.existingValJn.removeAt(index);
+
                                       listNot.value = '';
+                                      myModel.existingValJn.removeAt(index);
                                     }, verifyButton: () {
-                                      // final sensorId = Provider.of<ServerController>(context).value;
                                       final sensorStatus =
-                                          jnSensorList[index].sensorId;
+                                          sensorStorage.jnSensorList[index].sensorId;
                                       //! editing area
                                       log('from server controller ${myModel.sensorIdList}');
                                       log('from valueListen $model');
 
-                                      verifyOverDialog(
+                                      verifyOverDialogJn(
                                         context,
                                         index,
                                       );
-
-//                                       if(model.isNotEmpty&&myModel.existingVal.contains(model)==false){
-//                                       myModel.changeExistingVal(model);
-// log(myModel.existingVal.toString());
-//                                       }
                                     });
                                   }
-                                  return Consumer<ServerController>(
-                                      builder: (context, myModel, child) {
-                                    return addButtonFlag
+                                  
+                                    return sensorStorage.addButtonFlag
                                         ? TextButton(
                                             onPressed: () {
                                               // todo: Specifying the sensor type by adding values to the controller
@@ -286,16 +271,24 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                                               myModel.changeVerification(
                                                   verified: false);
                                               // todo: adding the value to sensor list
-                                              jnSensorList.add(
-                                                  ServerController.sn(
-                                                      sensorCount: 0,
+                                              // jnSensorList.add(
+                                              //     ServerController.sn(
+                                              //         sensorCount: 0,
+                                              //         sensorType:
+                                              //             myModel.sensorType,
+                                              //         verified:
+                                              //             myModel.verified));
+                                              sensorStorage.addToJnSensor(
+                                                 ServerController.sn(
+                                                      sensorCount: index,
                                                       sensorType:
                                                           myModel.sensorType,
                                                       verified:
-                                                          myModel.verified));
-                                              setState(() {
-                                                addButtonFlag = false;
-                                              });
+                                                          myModel.verified)
+                                              );
+                                              
+                                               sensorStorage.changeAddButtonFlag(false);
+                                              
                                             },
                                             child: Row(
                                               mainAxisAlignment:
@@ -320,7 +313,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                                               ],
                                             ))
                                         : const SizedBox();
-                                  });
+                                  
                                 });
                           });
                     }),
@@ -341,6 +334,9 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                         context: context))
               ],
             ),
+          
+            //! end: <<<<<<<<<<<<<<<<<<<<<<<<  Junction box sensor section >>>>>>>>>>>>>>>>>>>>>>>>
+          
           ],
         ),
       ),
@@ -388,6 +384,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
       ),
     );
   }
+// todo : <<<<<<<<<<<<<<<<<<<<<<<<  This is a widget it help the users to see the sensor list >>>>>>>>>>>>>>>>>>>>>>>>
 
   Widget sensorReadingWidget(bool flag, sensorFlag, int index,
       {required deleteFunc, required verifyButton}) {
@@ -404,9 +401,9 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   sensorIndicators(sensorFlag),
                   wSpace20,
                   flag
-                      ? Text(lnSensorList[index].sensorId ?? "Lane Sensor",
+                      ? Text(Provider.of<SensorReadResultController>(context).lnSensorList[index].sensorId ?? "Lane Sensor",
                           style: textStyle(false, para: false))
-                      : Text(jnSensorList[index].sensorId ?? "Junction Box",
+                      : Text(Provider.of<SensorReadResultController>(context).jnSensorList[index].sensorId ?? "Junction Box",
                           style: textStyle(false, para: false)),
                 ],
               ),
@@ -443,6 +440,11 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
     );
   }
 
+// ! end: <<<<<<<<<<<<<<<<<<<<<<<<  This is a widget it help the users to see the sensor list >>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// todo : <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for identifying the sensor is accepted or not >>>>>>>>>>>>>>>>>>>>>>>>
+
   Widget sensorIndicators(bool flag) {
     return SizedBox(
       width: 11,
@@ -453,13 +455,18 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
     );
   }
 
-  verifyOverDialog(context, int index) {
+// ! end: <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for identifying the accepted or not >>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// todo : <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for verifying the signal form the Lane sensor >>>>>>>>>>>>>>>>>>>>>>>>
+
+  verifyOverDialogJn(context, int index) {
     log(index.toString());
-    final sensorStatus = jnSensorList[index].sensorId;
+    
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Consumer<ServerController>(builder: (context, myModel, _) {
+          return Consumer2<ServerController,SensorReadResultController>(builder: (context, myModel,sensorStorage, _) {
             return ValueListenableBuilder(
                 valueListenable: listNot,
                 builder: (context, String model, _) {
@@ -469,7 +476,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   if (model.isNotEmpty &&
                       myModel.existingValJn.contains(model) == false &&
                       myModel.existingValLn.contains(model) == false &&
-                      sensorStatus == null) {
+                      sensorStorage.jnSensorList[index].sensorId == null) {
                     return AlertDialog(
                         backgroundColor: Colors.black,
                         content: const Text(
@@ -479,15 +486,15 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                         actions: [
                           ElevatedButton(
                               onPressed: () {
-                                jnSensorList[index].sensorId = model;
+                                sensorStorage.jnSensorList[index].sensorId = model;
                                 myModel.changeSensorId(val: model.toString());
                                 log(index.toString());
                                 myModel.changeExistingValJn(index, model);
-                                setState(() {
-                                  addButtonFlag = true;
-                                });
+                                
+                                  sensorStorage.changeAddButtonFlag(true);
+                                
                                 myModel.changeVerification(verified: true);
-                                jnSensorList[index].verified = true;
+                                sensorStorage.jnSensorList[index].verified = true;
                                 log("printing");
                                 Navigator.pop(context);
                               },
@@ -515,18 +522,25 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   } else {
                     return AlertDialog(
                       backgroundColor: Colors.black,
-                      title: const Text(
-                        'Waiting for Signal..',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      title: Row(
                         children: const [
                           Text(
                             'Waiting for Signal..',
                             style: TextStyle(color: Colors.white),
                           ),
+                          SizedBox(
+                            width: 20,
+                          ),
                           CircularProgressIndicator(),
+                        ],
+                      ),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const [
+                          Text(
+                            'Switch on the sensor to be\nverified and swipe the AdminTag\non it',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                     );
@@ -536,6 +550,10 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
         });
   }
 
+// ! end: <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for verifying the signal form the Lane sensor >>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// todo : <<<<<<<<<<<<<<<<<<<<<<<<  this function will help to pop up a window for delete conformation  >>>>>>>>>>>>>>>>>>>>>>>>
   deleteButtonConfirmationButton(
     context, {
     required void Function()? cancelOnPressed,
@@ -575,13 +593,17 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
           });
         });
   }
+// ! end: <<<<<<<<<<<<<<<<<<<<<<<<  This function will help to pop up a window for delete conformation  >>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+// todo : <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for verifying the signal form the junction box sensor >>>>>>>>>>>>>>>>>>>>>>>>
 
   verifyOverDialogLN(context, index) {
-    final sensorStatus = lnSensorList[index].sensorId;
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Consumer<ServerController>(builder: (context, myModel, _) {
+          return Consumer2<ServerController,SensorReadResultController>(builder: (context, myModel,sensorStorage, _) {
             return ValueListenableBuilder(
                 valueListenable: listNot,
                 builder: (context, String model, _) {
@@ -591,7 +613,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   if (model.isNotEmpty &&
                       myModel.existingValLn.contains(model) == false &&
                       myModel.existingValJn.contains(model) == false &&
-                      sensorStatus == null) {
+                      sensorStorage.lnSensorList[index].sensorId == null) {
                     return AlertDialog(
                         backgroundColor: Colors.black,
                         content: const Text(
@@ -601,13 +623,13 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                         actions: [
                           ElevatedButton(
                               onPressed: () {
-                                lnSensorList[index].sensorId = model;
+                                sensorStorage.lnSensorList[index].sensorId = model;
                                 myModel.changeExistingValLn(index, model);
                                 myModel.changeSensorId(val: model.toString());
-                                setState(() {
-                                  addButtonFlag = true;
-                                });
-                                lnSensorList[index].verified = true;
+                                
+                                  sensorStorage.changeAddButtonFlag(true);
+                               
+                                sensorStorage.lnSensorList[index].verified = true;
                                 myModel.changeVerification(verified: true);
                                 log("printing");
                                 Navigator.pop(context);
@@ -663,4 +685,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
           });
         });
   }
+
+// ! End: <<<<<<<<<<<<<<<<<<<<<<<<  This method will help the user for verifying the signal form the junction box sensor >>>>>>>>>>>>>>>>>>>>>>>>
+
 }
