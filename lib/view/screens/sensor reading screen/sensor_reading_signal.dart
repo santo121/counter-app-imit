@@ -109,7 +109,10 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
 
                                       listNot.value = '';
                                      myModelServer.existingValLn.removeAt(index);
-                                    }, verifyButton: () {
+                                    },
+                                    //* <<<<<<<<<<< This will invoke >>>>>>>>>>>
+                                    
+                                     verifyButton: () {
                                  
                                         verifyOverDialogLN(
                                           context,
