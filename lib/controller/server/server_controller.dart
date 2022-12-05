@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:counter_iot/DB/db_helper.dart';
+import 'package:counter_iot/model/sensor_respose_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -11,9 +13,10 @@ enum SensorType { lnSensor, jnSensor }
 ValueNotifier <String> listNot = ValueNotifier(""); 
 
 class ServerController extends ChangeNotifier {
-
+String? tagId;
+String? vehicleNumber;
 ServerController.sn(
-      {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount});
+      {required this.sensorType, required this.verified,this.sensorId,required this.sensorCount,this.vehicleNumber});
 String sensorIdList='';
   
 // void changeSensorList(val){
@@ -28,9 +31,44 @@ String sensorIdList='';
           const Duration(seconds: 1),
         );
         final message = String.fromCharCodes(data);
-        listNot.value=message;
+        
         //  changeSensorList(message);
+        
+        if(message.contains('{')){
+          log('we get the message');
+          
+
+          // RecentMoneySentResponse response;
+          final responseTwo = RecentMoneySentResponse.fromJson(jsonDecode(message));
+
+          if(responseTwo.h!=null){
+          client.write(DateTime.now().toString());
+listNot.value=responseTwo.h!;
+          notifyListeners();
+ 
+          }else{
+            log(responseTwo.d.toString());
+          listNot.value=responseTwo.d!;
+          tagId = responseTwo.t;
+          log(tagId.toString()+" from tag");
+          notifyListeners();
+
+          }
+          
+          notifyListeners();
+
+
+        }else{
+          listNot.value=message;
+        }
+        
+
+
         sensorIdList=message;
+        await Future.delayed(
+          const Duration(seconds: 4),
+        );
+        listNot.value='';
         notifyListeners();
 
         log("checking $message");
@@ -43,6 +81,9 @@ String sensorIdList='';
         //   log(dbResponse[i].sensorCode);
         // }
         // ! pass the sensor value to the received index of list
+
+        
+          
 
         // if (message == 'Knock, knock.') {
         //   client.write('Who is there?');

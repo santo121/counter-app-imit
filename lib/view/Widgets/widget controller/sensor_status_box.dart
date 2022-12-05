@@ -15,14 +15,17 @@ class SensorBoxStatus extends StatelessWidget {
     required this.lnFlag,
     required this.editVehicleNum,
     required this.counterReadingSwitch,
-    required this.sensorStatus
+    required this.sensorStatus,
+    required this.sensorName,
+    required this.activeSensorBox
   }) : super(key: key);
   final bool lnFlag;
   final String? vehicleNumber;
   final Function() editVehicleNum;
   final Function(bool val) counterReadingSwitch;
   final bool sensorStatus;
-
+  final String sensorName;
+  final bool activeSensorBox;
   
 
   @override
@@ -34,7 +37,7 @@ class SensorBoxStatus extends StatelessWidget {
       decoration: decoration,
       child: Center(
         child: Column(children: [
-          heading("first line"),
+          heading("ID: ${sensorName!='null'?sensorName:'Not verified'}"),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: Column(children: [
@@ -59,8 +62,15 @@ class SensorBoxStatus extends StatelessWidget {
           color: colorsList(colorsList: ColorsLists.gray),
           borderRadius: BorderRadius.all(radiusTen)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Center(child: Text(line)),
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: CircleAvatar(radius: 5,
+            backgroundColor:activeSensorBox? Colors.green:Colors.red,
+            ),
+          )
         ],
       ),
     );

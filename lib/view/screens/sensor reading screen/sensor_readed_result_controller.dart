@@ -3,9 +3,13 @@ import 'dart:developer';
 import 'package:counter_iot/controller/server/server_controller.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/jn_sensor_model.dart';
+
 class SensorReadResultController with ChangeNotifier {
   final List<ServerController> lnSensorList = [];
   final List<ServerController> jnSensorList = [];
+  // final List<JNSensorModel> jnSensorMainCalcList = [];
+  // final List<LNSensorModel> lNSensorMainCalcList = [];
   bool addButtonFlag = true;
 
 

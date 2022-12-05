@@ -17,9 +17,14 @@ enum ButtonType {
       required Enum buttonColor,
       Enum textColor = ColorsLists.white,
       required BuildContext context}) {
-    return InkWell(
-      onTap: onTap,
-      child: Ink(
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        shape:const StadiumBorder(),
+        backgroundColor: colorsList(colorsList: buttonColor),
+        elevation: 0
+      ),
+      child: Container(
         width: 168,
         padding:
             const EdgeInsets.only(top: 10, bottom: 10, right: 18, left: 18),
@@ -49,8 +54,7 @@ enum ButtonType {
           ],
         ),
         decoration: BoxDecoration(
-            color: colorsList(colorsList: buttonColor),
-            borderRadius: BorderRadius.circular(10)),
+            ),
       ),
     );
   }

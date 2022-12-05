@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+
 import 'package:counter_iot/colors.dart';
 import 'package:counter_iot/const_file.dart';
 import 'package:counter_iot/view/Widgets/buttons.dart';
@@ -192,19 +193,28 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                     }),
                   ),
                 )),
-                Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: buttonSelect(
-                        buttonType: ButtonType.redirectionButton,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()),
-                          );
-                        },
-                        context: context))
+                Consumer<SensorReadResultController>(
+                  builder: (context,storageController,_) {
+                    return Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: buttonSelect(
+                            buttonType: ButtonType.redirectionButton,
+                            onTap:
+                            
+                            () {
+                              storageController.lnSensorList[storageController.lnSensorList.length-1].verified&&
+                              storageController.jnSensorList[storageController.jnSensorList.length-1].verified?
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()),
+                              ):errorMessageFromReading();
+                              // :null;
+                            },
+                            context: context));
+                  }
+                )
               ],
             ),
             //! end : <<<<<<<<<<<<<<<<<<<<<<<<  LN sensor section section >>>>>>>>>>>>>>>>>>>>>>>>
@@ -322,19 +332,28 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                     }),
                   ),
                 )),
-                Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: buttonSelect(
-                        buttonType: ButtonType.redirectionButton,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()),
-                          );
-                        },
-                        context: context))
+                Consumer<SensorReadResultController>(
+                  builder: (context,storageController,_) {
+                    return Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: buttonSelect(
+                            buttonType: ButtonType.redirectionButton,
+                            onTap:
+                            
+                            () {
+                              storageController.lnSensorList[storageController.lnSensorList.length-1].verified&&
+                              storageController.jnSensorList[storageController.jnSensorList.length-1].verified?
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()),
+                              ):errorMessageFromReading();
+                              // :null;
+                            },
+                            context: context));
+                  }
+                )
               ],
             ),
           
@@ -365,6 +384,32 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
         ),
       ),
     );
+  }
+    errorMessageFromReading(){
+    showDialog(context: context, builder:(BuildContext context){
+      return  AlertDialog(
+                      backgroundColor: Colors.black,
+                      title: Row(
+                        children: const [
+                          Text(
+                            'Verification Error',
+                            style: TextStyle(color: Color(0xFFFF0000)),
+                          ),
+                          
+                        
+                        ],
+                      ),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const [
+                          Text(
+                            'You are not allowed to the console.\nYou need to verify the sensor first',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    );
+    });
   }
 
   SizedBox laneSensorTabHead() {
@@ -404,7 +449,7 @@ class _SensorReadingSignalState extends State<SensorReadingSignal> {
                   sensorIndicators(sensorFlag),
                   wSpace20,
                   flag
-                      ? Text(Provider.of<SensorReadResultController>(context).lnSensorList[index].sensorId ?? "Lane Sensor",
+                      ? Text(Provider.of<SensorReadResultController>(context).lnSensorList[index].vehicleNumber??Provider.of<SensorReadResultController>(context).lnSensorList[index].sensorId??"Lane sensor",
                           style: textStyle(false, para: false))
                       : Text(Provider.of<SensorReadResultController>(context).jnSensorList[index].sensorId ?? "Junction Box",
                           style: textStyle(false, para: false)),
